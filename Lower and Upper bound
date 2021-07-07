@@ -14,7 +14,7 @@ int upper(vector<int>& arr, int B){
 
 lower if value is smaller than not equal then only move right else move right.
 
-int upper(vector<int>& arr, int B){
+int lower(vector<int>& arr, int B){
     int l =0 , h = arr.size() -1;
     int ans = -1;
     while(l <= h){
