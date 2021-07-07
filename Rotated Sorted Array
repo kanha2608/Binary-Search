@@ -1,0 +1,19 @@
+If arr[mid] <= arr[high] means mid to high is sorted, we will simply try to narrow on basis of this result.
+else low to mid is sorted.
+
+int Solution::search(const vector<int> &A, int B) {
+    int l = 0 , h = A.size() - 1;
+    while(l <= h){
+        int mid = l + (h-l)/2;
+        if(A[mid] == B) return mid;
+        if(A[mid] <= A[h]){
+            if(A[mid] < B && A[h] >= B) l = mid +1;       // since mid to h is sorted we check whether our solution lies in this range.
+            else h = mid-1;    // else move backward.
+        }
+        else {
+            if(A[mid] > B && A[l] <= B) h = mid-1;     // since low to mid is sorted so check whether B lies in this range 
+            else l = mid +1;    // else move right.
+        }
+    }
+    return -1;
+}
