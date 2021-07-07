@@ -1,0 +1,31 @@
+Suppose a sorted array A is rotated at some pivot unknown to you beforehand.
+(i.e., 0 1 2 4 5 6 7 might become 4 5 6 7 0 1 2).
+Find the minimum element.
+
+Here, We will try to reduce our problem space. First, if arr[mid] < arr[mid-1] then arr[mid] is smallest since it pivot point.
+Second, if arr[mid] > arr[mid +1] then arr[mid+1] is minimum.
+
+and if arr[mid] < arr[h] then mid to h is already sorted we will get minimum on left.
+else move to right;
+
+
+int Solution::findMin(const vector<int> &A) {
+    if(A.size() == 1) return A[0];
+    int l = 0 , h = A.size()- 1 , mid;
+    while(l <= h){
+        mid = l + (h-l)/2;
+        if(mid < A.size()-1 && A[mid] > A[mid +1]){
+            return A[mid+1];
+        }
+        if(mid > 0 && A[mid] < A[mid-1]){
+            return A[mid];
+        }
+        if(A[mid] < A[h]){
+            h = mid -1;
+        }
+        else{
+            l = mid +1;
+        }
+    }
+    return A[mid];
+}
