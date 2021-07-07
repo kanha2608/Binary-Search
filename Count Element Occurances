@@ -1,0 +1,47 @@
+Here, We have Have to simply found upper and lower bound for a number.
+
+int lower(vector<int>& A , int B){
+    int l = 0 , h = A.size()-1, ans = -1;
+    while(l <= h){
+        int mid = l + (h-l)/2;
+        if(A[mid] == B ){
+            ans = mid;
+            h = mid -1;  
+        }
+        if(A[mid] < B){
+            l = mid +1;
+        }
+        else if(A[mid] > B){
+            h = mid-1;
+        }
+    }
+    return ans;
+}
+int upper(vector<int>& A , int B){
+    int l = 0 , h = A.size()-1, ans = -1;
+    while(l <= h){
+        int mid = l + (h-l)/2;
+        if(A[mid] == B){
+            l = mid +1;
+            ans = mid;
+        }
+        else if(A[mid] > B){
+            h = mid-1;
+        }
+        else{
+            l = mid+1;
+        }
+    }
+    return ans;
+}
+
+
+
+class Solution {
+public:
+    vector<int> searchRange(vector<int>& A, int B) {
+        int lb = lower(A,B);
+        int ub = upper(A,B);
+        return {lb, ub};
+    }
+};
