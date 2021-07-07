@@ -1,0 +1,28 @@
+Here, we will find maximum H for which we have At least B units of Wood.
+
+sum function will return true if we have gathered enough wood.
+else false;
+
+and we do binary search for element in range 0 to H.
+if(value wood is collected we try to increase our H) Means we like to find upperbound for which our condition hold.
+
+bool sum(vector<int>& A, int x , int B){
+    long long res = 0;
+    for(int num: A){
+        res += max(0, num - x );
+        if(res >= B) return true;
+    }
+    return false;
+}
+
+int Solution::solve(vector<int> &A, int B) {
+    int x = *max_element(A.begin() , A.end());
+    int l = 0 , h = x;
+    while(l <= h){
+        int mid = l + (h-l)/2;
+        bool curr = sum(A,mid , B);
+        if(!curr) h = mid -1;
+        else l = mid + 1;
+    }
+    return h;
+}
