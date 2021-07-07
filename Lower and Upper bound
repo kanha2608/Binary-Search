@@ -1,0 +1,28 @@
+if(arr[mid] <= B ) here we only require to move right.
+else left move.
+
+int upper(vector<int>& arr, int B){
+    int l =0 , h = arr.size() -1;
+    int ans = -1;
+    while(l <= h){
+        int mid = (l + h)/2 ;
+        if(arr[mid] <= B) l = mid + 1;
+        else h = mid - 1;
+    }
+    return h;
+}
+
+lower if value is smaller than not equal then only move right else move right.
+
+int upper(vector<int>& arr, int B){
+    int l =0 , h = arr.size() -1;
+    int ans = -1;
+    while(l <= h){
+        int mid = (l + h)/2 ;
+        if(arr[mid] < B) l = mid + 1;
+        else h = mid - 1;
+    }
+    return l;
+}
+and then return left 
+if (left <= right) then it is found else not found.
