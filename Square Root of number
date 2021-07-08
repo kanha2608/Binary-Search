@@ -1,0 +1,44 @@
+if(mid*mid == A) then over.
+if smaller but (mid+1)^2 > then also mid is answer.
+else if(smaller ) move to right.
+and else move left and middle is our answer.
+
+
+int Solution::sqrt(int A) {
+    if(A == 0 )return 0;
+    int l = 0 , h = 1e5;
+    long long mid;
+    while(l <= h){
+        mid = l + (h-l)/2;
+        if(mid*mid == A) return mid;
+        if((mid+1)*(mid+1) > A && (mid*mid) < A){
+            return mid;
+        }  
+        if(mid*mid < A){
+            l = mid+1;
+        }
+        else h = mid-1;
+    }
+    return mid-1;
+}
+
+
+Or, keep a answer pointer
+
+class Solution {
+    public:
+    int sqrt(int x) {
+        if (x == 0) return 0;
+        int start = 1, end = x, ans;
+        while (start <= end) {
+            int mid = (start + end) / 2;
+            if (mid <= x / mid) {
+                start = mid + 1;
+                ans = mid;
+            } else {
+                end = mid - 1;
+            }
+        }
+        return ans;
+        }
+};
