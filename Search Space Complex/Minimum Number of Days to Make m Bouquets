@@ -1,0 +1,43 @@
+1. Define our search space,
+minimum day is 1 and maximum is maximum of all , so at mid check how may buquotes i have got at this day
+If this is smaller than required then we have to wait for more days, so low = mid + 1;
+else high = mid- 1 and save answer.
+
+for isvalid we simply count number of subarray with size k, that is we use counter that reset if we have got one pair or we have got end or this flower is not blown
+
+
+class Solution {
+public:
+    bool isvalid(vector<int>& arr, int mid, int m , int k){
+        int cnt = 0;
+        int curr = 0;
+        for(int i = 0 ; i < arr.size(); i++){
+            if(arr[i] <= mid){
+                curr++;
+                if(curr >= k){
+                    cnt++;
+                    curr -= k;
+                }
+            }
+            else curr = 0;
+            if(cnt >= m){
+                return true;
+            }
+        }
+        return false;
+    }
+    
+    int minDays(vector<int>& arr, int m, int k) {
+        if(arr.size() < m*k) return -1;
+        int low = 1 , high = *max_element(arr.begin() , arr.end()) , ans = -1;
+        while(low <= high){
+            int mid = low  + (high - low)/2;
+            if(isvalid(arr, mid , m, k)){
+                ans = mid;
+                high = mid-1;
+            }
+            else low = mid+1;
+        }
+        return ans;
+    }
+};
