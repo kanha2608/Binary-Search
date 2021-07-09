@@ -1,0 +1,48 @@
+Here, We partition x at mid and calculate corrosponding py to maintain total number of element equal on left and right.
+To deal odd and even in one we keep biasing at left on total that is (x+y+1)/2.
+
+
+       A[0] --- A[px-1]                |     A[px] ---- A[x-1]
+                       
+       B[0] --- B[py-1]                |     B[py] ---- B[y-1]
+       
+       
+       if(maxLx <= minRy && maxLy <= minRx)       -> condition for median.
+       here px + py should be middle 
+       if(total length is odd) then answer is max of(A[px-1] and B[py-1])
+       
+
+double Solution::findMedianSortedArrays(const vector<int> &A, const vector<int> &B) {
+    if(A.size() > B.size()){
+        return findMedianSortedArrays(B,A);
+    }
+    int x = A.size() , y = B.size();
+    int low = 0 , high = x;
+    while(low <= high){
+        int px = low + (high - low)/2;
+        int py = (x+y+1)/2 - px;
+
+        int maxLx = (px == 0)?INT_MIN:A[px-1];
+        int minRx = (px == x)?INT_MAX:A[px];
+
+        int maxLy = (py == 0)?INT_MIN:B[py-1];
+        int minRy = (py == y)?INT_MAX:B[py];
+
+        if(maxLx <= minRy && maxLy <= minRx){
+            double ans;
+            if((x+y)%2){
+                ans = max(maxLx, maxLy)/1.0;
+            }
+            else{
+                ans = (max(maxLx, maxLy) + min(minRx, minRy))/2.0;
+            }
+            return ans;
+        }
+        else if(maxLx > minRy){
+            high = px - 1;
+        }
+        else low = px + 1;
+
+    }
+    return -1;
+}
