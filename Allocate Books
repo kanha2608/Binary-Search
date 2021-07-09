@@ -1,0 +1,44 @@
+here, We will define search space,
+If B == n then each student will get one book, hence maximum of array is our lower bound,
+if B == 1 then only student read all, hence sum is our answer.
+
+Now, in our search space, we will try if using this is upperbound for each student to have can i allocate to B student 
+if this is more then we have to move right.
+if this is valid, We will try to reduce our answer. so move left.
+
+
+int f(vector<int> &A, int &maxPages) {
+    int numStudents = 1;
+    int pages = 0;
+    for (int i = 0; i < A.size(); ++i) {
+        pages += A[i];
+        if (pages > maxPages) {
+            pages = A[i];
+            numStudents++;
+        }
+    }
+    return numStudents;
+}
+
+int Solution::books(vector<int> &A, int B) {
+    if(B > A.size()){
+        return -1;
+    }
+    int maxi = 0 , sum = 0;
+    for(auto x: A){
+        sum += x;
+        maxi = max(maxi ,x );
+    }
+    int l = maxi , h = sum , ans = -1;
+    while(l <= h){
+        int mid = l + (h-l)/2;
+        if(f(A,mid) > B){
+            l = mid+1;
+        }
+        else{
+            ans = mid;
+            h = mid-1;
+        }
+    }
+    return ans;
+}
