@@ -1,0 +1,74 @@
+https://codeforces.com/contest/1626/problem/D
+
+
+// Karya ko arrambh karo to uska ant krne par hi viraam lo
+// Anyatha karya hi tumhara Ant kar dega.  ~Guru Brishpati
+
+#include<bits/stdc++.h>
+
+using namespace std;
+
+#define all(c) c.begin(),c.end() 
+
+#define nl "\n"
+
+
+
+void solve(){
+    int n;
+    cin>>n;
+
+    vector<int> a(n);
+    map<int,int> M;
+    for(int i = 0; i < n; i++){
+        cin>>a[i];
+        M[a[i]]++;
+    }
+    vector<int> c;
+    for(auto x: M){
+        c.push_back(x.second);
+    }
+    int m = c.size();
+    vector<int> pre(m+1);
+    for(int i = 0; i < m; i++){
+        pre[i+1] = pre[i] + c[i];          // Store prefix sum. 
+    }
+    int ans = (int)1e9 + 10;
+    // Algo :- we fix number of people in 1st segment and in second segment which are power of two.
+    // These number are the number of people after invite. 
+    for(int left = 0; left < 19 ; left++){
+        for(int mid = 0; mid < 19; mid++){
+            int Lcap = 1 << left;  // This is the capacity of left most segment.
+            int Mcap = 1 << mid;    // Capacity of middle segment. 
+            int i = (int)(upper_bound(all(pre), Lcap) - pre.begin() - 1);  // We will get the id of the sum which is just smaller than
+                                                                           // our required left capacity.
+            int t = Lcap - pre[i];
+            // Additional people in left segment
+            int j = (int)(upper_bound(all(pre), Mcap + pre[i]) - pre.begin() - 1);  // Similarily calculate for middle one.
+
+            t += Mcap + pre[i] - pre[j];    // Additional people.
+
+            int rest = pre[m] - pre[j];  // Rest people but this need to be power of two so we will try to get just >= pow(2)
+            int s = 1;
+            while(s < rest){        // This will break with s just greater or equal power of(2) than rest element.
+                s <<= 1;
+            }
+            t += s - rest; // Add this to our answer.
+            ans = min(ans, t);
+        }
+    }
+    cout<<ans<<nl;
+    // Note :- It is safe to use upper bound when we need to get the value just smaller or equal. just do and then -1 for back,
+    // Handle arr.begin() case for that i have pushed 0 at begin in prefix sum.
+}
+int main(){
+    // setIO("maxcross");
+    ios::sync_with_stdio(0);
+    cin.tie(0);
+    cout.tie(0);
+
+    int t;
+    cin>>t;
+    while(t--)
+    solve(); 
+}
