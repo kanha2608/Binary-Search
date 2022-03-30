@@ -1,0 +1,25 @@
+https://leetcode.com/problems/search-a-2d-matrix-ii/
+
+Here, 1. binary search on each row or each col. complexity = O(n*log(m))
+2. This is very intuitive.
+We start with top right corner if the value of the target is greater than this entire row can be discarded because all elements are smaller that this.
+If the value is smaller than our choosen then the entire column can be discarded because all the values are sorted then all values would be greater than target.
+so here, we do col--;
+
+class Solution {
+public:
+    bool searchMatrix(vector<vector<int>>& matrix, int target) {
+        int n = matrix.size(), m = matrix[0].size();
+        int row = 0 , col = m-1;
+        while(col >= 0 && row < n){
+            if(matrix[row][col] == target) return true;
+            else if(matrix[row][col] < target){
+                row++;
+            }
+            else{
+                col--;
+            }
+        }
+        return false;
+    } 
+};
