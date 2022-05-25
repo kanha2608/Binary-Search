@@ -1,0 +1,35 @@
+Key idea is sort on the ascending of width and descending of height if the width same. 
+Then question is simply finding LIS.
+
+why descending of height :- because suppose 3,4 then 3,5 now 3,5 can't contain 3,4 so that's why descending of height. 
+
+now question is like 1,4,5,3 finding lis.
+
+class Solution {
+public:
+    int maxEnvelopes(vector<vector<int>>& arr) {
+        int n = arr.size();
+        auto cmp = [&](vector<int>& a, vector<int>& b){
+            if(a[0] == b[0]){
+                return a[1] > b[1];   // to prevent 3,3 can't be contain by 3,4.
+            }
+            return a[0] < b[0];
+        };
+        sort(arr.begin(), arr.end(), cmp);
+        
+        vector<int> temp;
+        for(int i = 0; i < n; i++){
+            auto itr = lower_bound(temp.begin(),temp.end(), arr[i][1]);
+            if(itr == temp.end()){
+                temp.push_back(arr[i][1]);
+            }
+            else{
+                *itr = arr[i][1];
+            }
+        }
+        return temp.size();
+        
+    }
+};
+
+// 1, 4, 8 ,3
