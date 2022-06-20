@@ -1,17 +1,25 @@
-Here, We assume mid is median and then count number of element smaller than mid. and check condition.
-
 int Solution::findMedian(vector<vector<int> > &A) {
-    int r=A.size(),c=A[0].size();
-    int req=(r*c+1)/2;
-    int minm = 0 , maxm = 1e9;
-    while(minm<maxm){
-        int mid=minm+(maxm-minm)/2;
-        int place=0;
-        for(int i=0;i<r;i++)
-         place+=upper_bound(A[i].begin(),A[i].end(),mid)-A[i].begin();
-         
-        if(place<req) minm=mid+1;
-        else maxm=mid;
+    int n = A.size(), m = A[0].size();
+    int l = 1, r = 1e9 ,ans;
+    
+    auto check = [&](int num){
+        int cnt = 0;
+        for(int i = 0; i < n; i++){
+            auto itr = upper_bound(A[i].begin(), A[i].end(), num);
+            cnt += (itr - A[i].begin());
+        }  
+        return cnt > (n*m)/2;
+    };
+    
+    while(l <= r){
+        int mid = l + (r - l)/2;
+        if(check(mid)){
+            ans = mid;
+            r = mid - 1;
+        }
+        else{
+            l = mid + 1;
+        }
     }
-    return minm;
+    return ans;
 }
