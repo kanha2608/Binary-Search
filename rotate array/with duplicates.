@@ -1,0 +1,39 @@
+Here, since there can be duplicates 
+first we see whether left part is clear increasing if yes then manage search space according to that.
+-> A[mid] > A[l]
+
+or right part is clear sorted means A[mid] < A[l] or we can say A[mid] < A[r] 
+
+but this is also not case then we can safely discard l, because we know A[l] == A[mid] so, we will get our desired result. 
+
+class Solution {
+public:
+    bool search(vector<int>& nums, int target) {
+        int n= nums.size();
+        int l = 0, u = n-1;
+        while(l <= u){
+            int mid = l + (u - l)/2;
+            if(nums[mid] == target) return true;
+            else if(nums[mid] > nums[l]){ // l - mid is sorted and do checking on this basis.
+                if(nums[mid] > target && nums[l] <= target){
+                    u = mid - 1;
+                }
+                else{
+                    l = mid + 1;
+                }
+            }
+            else if(nums[mid] < nums[l]){  // mid - u is sorted do checking on this basis. 
+                if(nums[mid] < target && nums[u] >= target){
+                    l = mid + 1;
+                }
+                else{
+                    u = mid  -1;
+                }
+            }
+            else{  // no idea but nums[mid] == nums[l] we can exclude l for sure.
+                l++;
+            }
+        }
+        return false;
+    }
+};
