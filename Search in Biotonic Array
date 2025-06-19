@@ -31,3 +31,11 @@ int Solution::solve(vector<int> &A, int B) {
     }
     return -1;
 }
+
+
+
+This solution won't work out for 
+1 3 5 7 9 11 6 -> find '6'. This solution will break.
+
+
+Instead first find the peak element and then do the BS on left and right part of it. 
